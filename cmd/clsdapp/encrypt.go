@@ -50,7 +50,6 @@ var encryptCmd = &cobra.Command{
 		// kekKey := kekBytes[:]
 
 		dek, err := genekeys.GenerateDek()
-
 		cobra.CheckErr(err)
 		if filePath != "" {
 			if err := encryption.Encrypt(filePath, dek); err != nil {

@@ -24,11 +24,21 @@ import (
 	"github.com/spf13/viper"
 )
 
-const configFileName = "config.json"
-const clsdFolderName = "CLSD"
+const (
+	configFileName        = "config.json"
+	clsdFolderName        = "CLSD"
+	awsFolderName         = ".aws"
+	credentialsFileName   = "credentials.json"
+	defaultAWSRegion      = "auto"
+	defaultAWSAccessKeyID = ""
+	defaultAWSSecretKey   = ""
+)
 
 type Config struct {
-	KEKkey string `json:"kekkey"`
+	KEKkey             string `json:"kekkey"`
+	Region             string `json:"region"`
+	AWSAccessKeyID     string `json:"aws_access_key_id"`
+	AWSSecretAccessKey string `json:"aws_secret_access_key"`
 }
 
 var (
@@ -46,7 +56,12 @@ var (
 		participate in securing their data, offering full control and confidence in maintaining the 
 		confidentiality and integrity of their information.`,
 		// Run: func(cmd *cobra.Command, args []string) {
-
+		// 	err := createConfigFile()
+		// 	if err != nil {
+		// 		fmt.Fprintln(os.Stderr, "Error initializing configuration files:", err)
+		// 		os.Exit(1)
+		// 	}
+		// 	fmt.Println("Configuration files initialized successfully.")
 		// },
 	}
 )
@@ -63,6 +78,10 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 	rootCmd.PersistentFlags().StringP("filePath", "f", "", "Path of the file that you want to encrypt")
+	rootCmd.PersistentFlags().StringP("accessKeyID", "i", "", "Access Key Id as your Login Key")
+	rootCmd.PersistentFlags().StringP("secretAccessKey", "s", "", "Secret Access Key as your Password")
+	rootCmd.PersistentFlags().StringP("bcktname", "b", "", "Bucket name out of all your existing buckets!")
+
 }
 
 func initConfig() {
@@ -83,7 +102,9 @@ func initConfig() {
 
 	viper.AutomaticEnv()
 
-	_ = viper.ReadInConfig()
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("Error reading config file:", err)
+	}
 }
 
 // CreateConfigFile attempts to create the config file and CLSD folder
@@ -105,10 +126,16 @@ func CreateConfigFile() error {
 
 		configFilePath := filepath.Join(clsdFolderPath, configFileName)
 		config := Config{
-			KEKkey: "",
+			KEKkey:             "",
+			Region:             defaultAWSRegion,
+			AWSAccessKeyID:     defaultAWSAccessKeyID,
+			AWSSecretAccessKey: defaultAWSSecretKey,
 		}
 
 		viper.SetDefault("KEKkey", config.KEKkey) // Set default value for KEKkey in viper
+		viper.SetDefault("Region", config.Region)
+		viper.SetDefault("AWSAccessKeyID", config.AWSAccessKeyID)
+		viper.SetDefault("AWSSecretAccessKey", config.AWSSecretAccessKey)
 
 		// Save config using viper
 		if err := viper.WriteConfigAs(configFilePath); err != nil {
