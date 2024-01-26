@@ -6,7 +6,7 @@ package clsdapp
 import (
 	"fmt"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/generales"
+	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
 	listingbuckets "github.com/Abdiooa/CLSDAPP/pkg/clsdapp/listingbuckets"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -23,7 +23,7 @@ var bucketsCmd = &cobra.Command{
 
 		secretAccessKey, _ := cmd.Flags().GetString("secretAccessKey")
 
-		KeyAccessDefined := generales.IsNotKeyAccessDefined()
+		KeyAccessDefined := common.IsNotKeyAccessDefined()
 		region := viper.GetString("Region")
 
 		if KeyAccessDefined {
@@ -32,7 +32,7 @@ var bucketsCmd = &cobra.Command{
 				return
 			}
 
-			generales.StoreCredentials(accessKeyID, secretAccessKey, region)
+			common.StoreCredentials(accessKeyID, secretAccessKey, region)
 
 			err := listingbuckets.ListBuckets(region, accessKeyID, secretAccessKey)
 

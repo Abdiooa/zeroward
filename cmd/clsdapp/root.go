@@ -81,6 +81,8 @@ func init() {
 	rootCmd.PersistentFlags().StringP("accessKeyID", "i", "", "Access Key Id as your Login Key")
 	rootCmd.PersistentFlags().StringP("secretAccessKey", "s", "", "Secret Access Key as your Password")
 	rootCmd.PersistentFlags().StringP("bcktname", "b", "", "Bucket name out of all your existing buckets!")
+	rootCmd.PersistentFlags().StringP("objectkey", "o", "", "objectkey refers to the unique identifier or name of the object(file) with a bucket, it is the path or where in the bucket the file should be stored.")
+	rootCmd.PersistentFlags().StringP("passphrase", "p", "", "Passphrase for encryption required for the first encryption")
 
 }
 

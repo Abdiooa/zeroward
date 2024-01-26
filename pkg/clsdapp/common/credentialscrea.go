@@ -1,6 +1,7 @@
-package generales
+package common
 
 import (
+	"encoding/hex"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -62,6 +63,21 @@ func StoreCredentials(accessKeyID, secretAccessKey, region string) {
 
 	if err := viper.WriteConfig(); err != nil {
 		fmt.Println("Error updating the access key id, secret key, and region in the config file:", err)
+		os.Exit(1)
+	}
+}
+
+func IsFirstEncryption() bool {
+	kekKey := viper.GetString("KEKkey")
+	return kekKey == ""
+}
+
+func UpdateKEKKey(kek []byte) {
+
+	kekString := hex.EncodeToString(kek)
+	viper.Set("KEKkey", kekString)
+	if err := viper.WriteConfig(); err != nil {
+		fmt.Println("Error updating KEK key in the config file:", err)
 		os.Exit(1)
 	}
 }

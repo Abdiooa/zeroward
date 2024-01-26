@@ -6,7 +6,7 @@ package clsdapp
 import (
 	"fmt"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/generales"
+	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
 	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/listingobjects"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -25,7 +25,7 @@ var ObjectsCmd = &cobra.Command{
 
 		bcktName, _ := cmd.Flags().GetString("bcktname")
 
-		KeyAccessDefined := generales.IsNotKeyAccessDefined()
+		KeyAccessDefined := common.IsNotKeyAccessDefined()
 		region := viper.GetString("Region")
 
 		if KeyAccessDefined {
@@ -34,7 +34,7 @@ var ObjectsCmd = &cobra.Command{
 				return
 			}
 
-			generales.StoreCredentials(accessKeyID, secretAccessKey, region)
+			common.StoreCredentials(accessKeyID, secretAccessKey, region)
 
 			err := listingobjects.ListObjects(region, accessKeyID, secretAccessKey, bcktName)
 
