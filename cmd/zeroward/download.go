@@ -29,6 +29,8 @@ var downloadCmd = &cobra.Command{
 
 		objectkey, _ := cmd.Flags().GetString("objectkey")
 
+		removeAfterDownload, _ := cmd.Flags().GetString("removeAfterDownload")
+
 		firstEncryption := common.IsFirstEncryption()
 
 		if firstEncryption {
@@ -61,7 +63,7 @@ var downloadCmd = &cobra.Command{
 
 			common.StoreCredentials(accessKeyID, secretAccessKey, region)
 
-			err := downloading.DownloadObject(region, accessKeyID, secretAccessKey, bcktName, filePath, objectkey)
+			err := downloading.DownloadObject(region, accessKeyID, secretAccessKey, bcktName, filePath, objectkey, removeAfterDownload)
 
 			if err != nil {
 				fmt.Println("Error:", err)
@@ -80,7 +82,7 @@ var downloadCmd = &cobra.Command{
 				fmt.Println("Error: FilePath and ObjectKey are required!")
 				return
 			} else {
-				err := downloading.DownloadObject(region, viper.GetString("AWSAccessKeyID"), viper.GetString("AWSSecretAccessKey"), bcktName, filePath, objectkey)
+				err := downloading.DownloadObject(region, viper.GetString("AWSAccessKeyID"), viper.GetString("AWSSecretAccessKey"), bcktName, filePath, objectkey, removeAfterDownload)
 				if err != nil {
 					fmt.Println("Error:", err)
 					return
@@ -92,4 +94,5 @@ var downloadCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(downloadCmd)
+	downloadCmd.Flags().StringP("removeAfterDownload", "r", "", "write (yes/y) for removing the file from the cloud storage after successful download, else don't specify anything")
 }
