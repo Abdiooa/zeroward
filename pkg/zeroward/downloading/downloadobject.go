@@ -19,7 +19,7 @@ import (
 
 const DEKKeyMetadataKey = "dek-key" // Metadata key for the DEK key
 
-func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFilePath string, objectKey string) error {
+func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFilePath string, objectKey string, removeAfterDownload string) error {
 
 	client, err := common.SetupS3Client(awsRegion, accessKeyId, accessKeySecret)
 	if err != nil {
@@ -106,8 +106,32 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 	if err != nil {
 		return fmt.Errorf("error writing the body on the local file: %v", err)
 	}
+	outputFile := objectKey[:len(objectKey)-4]
+	fmt.Printf("File '%s' downloaded successfully from S3://%s/%s to %s\n", outputFile, bucketName, objectKey, localFilePath)
 
-	fmt.Printf("File '%s' downloaded successfully from S3://%s/%s to %s\n", objectKey, bucketName, objectKey, localFilePath)
+	if removeAfterDownload == "yes" || removeAfterDownload == "y" {
+		err := removeFileFromCloudStorage(client, bucketName, objectKey)
+		if err != nil {
+			return fmt.Errorf("error removing file from cloud storage: %v", err)
+		}
+		fmt.Printf("File '%s' removed from S3://%s/%s\n", objectKey, bucketName, objectKey)
+	}
+
 	return nil
 
+}
+
+func removeFileFromCloudStorage(client *s3.Client, bucketName, objectKey string) error {
+	_, err := client.DeleteObject(
+		context.TODO(),
+		&s3.DeleteObjectInput{
+			Bucket: &bucketName,
+			Key:    &objectKey,
+		},
+	)
+	if err != nil {
+		return fmt.Errorf("error deleting file from cloud storage: %v", err)
+	}
+
+	return nil
 }
