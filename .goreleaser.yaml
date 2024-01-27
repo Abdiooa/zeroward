@@ -82,7 +82,10 @@ universal_binaries:
 
 nfpms:
 - maintainer: Abdi Omar Ousleyeh <martelluiz@gmail.com>
-  description: zero knowlegde encryption command line for securing files on the cloud storage
+  description: zero knowledge encryption command line for securing files on the cloud storage
   homepage: https://github.com/Abdiooa/zeroward/
   package_name: zeroward
   license: Apache
+  formats:
+    - deb
+    - apk
