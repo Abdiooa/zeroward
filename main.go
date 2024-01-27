@@ -18,21 +18,20 @@ package main
 import (
 	"fmt"
 
-	"github.com/Abdiooa/CLSDAPP/cmd/clsdapp"
+	"github.com/Abdiooa/zeroward/cmd/zeroward"
 )
 
 func main() {
-	// Create the config file and store KEKkey
 	if err := createConfigFile(); err != nil {
 		fmt.Println("Error creating config file:", err)
 		return
 	}
 
-	// Execute the CLSDAPP command
-	clsdapp.Execute()
+	// Execute the zeroward command
+	zeroward.Execute()
 }
 
 func createConfigFile() error {
 	// Attempt to create the config file and CLSD folder
-	return clsdapp.CreateConfigFile()
+	return zeroward.CreateConfigFile()
 }

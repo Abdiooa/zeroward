@@ -4,31 +4,25 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
-	"errors"
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 )
 
-func Encrypt(input interface{}, key []byte) error {
-	switch v := input.(type) {
-	case []byte:
-		return EncryptKey(v, key)
-	case string:
-		return EncryptFile(v, key)
-	default:
-		return errors.New("unsupported input type")
-	}
-}
-
-func EncryptKey(dek []byte, kek []byte) error {
-
+func EncryptKey(dek []byte, kek []byte, filePath string) error {
 	encryptedData, err := EncryptData(dek, kek)
 	if err != nil {
 		return err
 	}
 
-	file, err := os.Create("DEK.key.enc")
+	// Extract directory part of filePath
+	outputDEKDir := filepath.Dir(filePath)
+
+	// Create encrypted DEK file path by joining the directory and the new filename
+	outputDEKFilePath := filepath.Join(outputDEKDir, "DEK.key.enc")
+
+	file, err := os.Create(outputDEKFilePath)
 	if err != nil {
 		return err
 	}
