@@ -96,7 +96,7 @@ brews:
   homepage: https://github.com/Abdiooa/homebrew-tools
   repository:
     - name: homebrew-tools
-      owner: homebrew-toolsAbdiooa
+      owner: Abdiooa
   commit_author:
     name: Abdi Omar Ousleyeh
     email: martelluiz@gmail.com
