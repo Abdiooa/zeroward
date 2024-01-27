@@ -92,8 +92,7 @@ nfpms:
 
 brews:
 - name: zeroward
-  homepage: https://github.com/Abdiooa/zeroward
-  description: zero knowledge encryption command line for securing files on the cloud storage
+  homepage: https://github.com/Abdiooa/homebrew-tools
   tap:
     owner: Abdiooa
     name: homebrew-tools
