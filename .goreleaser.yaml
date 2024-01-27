@@ -89,3 +89,15 @@ nfpms:
   formats:
     - deb
     - apk
+
+brews:
+- name: zeroward
+  homepage: https://github.com/Abdiooa/zeroward
+  description: zero knowledge encryption command line for securing files on the cloud storage
+  tap:
+    owner: Abdiooa
+    name: homebrew-tools
+  commit_author:
+      name: Abdi Omar Ousleyeh
+      email: martelluiz@gmail.com
+  license: "Apache"
