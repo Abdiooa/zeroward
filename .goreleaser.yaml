@@ -95,8 +95,8 @@ brews:
   name: zeroward
   homepage: https://github.com/Abdiooa/homebrew-tools
   repository:
-    - name: homebrew-tools
-      owner: Abdiooa
+    name: homebrew-tools
+    owner: Abdiooa
   commit_author:
     name: Abdi Omar Ousleyeh
     email: martelluiz@gmail.com
