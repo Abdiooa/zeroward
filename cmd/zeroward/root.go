@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -74,12 +75,18 @@ func init() {
 func initConfig() {
 
 	if cfgFile != "" {
-
 		viper.SetConfigFile(cfgFile)
 	} else {
-
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
+		// Get user's home directory based on OS
+		var home string
+		switch runtime.GOOS {
+		case "windows":
+			home = os.Getenv("USERPROFILE")
+		default:
+			homeDir, err := os.UserHomeDir()
+			cobra.CheckErr(err)
+			home = homeDir
+		}
 
 		clsdFolderPath := filepath.Join(home, ".config", clsdFolderName)
 		viper.AddConfigPath(clsdFolderPath)
@@ -96,9 +103,17 @@ func initConfig() {
 
 // CreateConfigFile attempts to create the config file and CLSD folder
 func CreateConfigFile() error {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Printf("Error getting user's home directory: %v", err)
+	// Get user's home directory based on OS
+	var homeDir string
+	switch runtime.GOOS {
+	case "windows":
+		homeDir = os.Getenv("USERPROFILE")
+	default:
+		var err error
+		homeDir, err = os.UserHomeDir()
+		if err != nil {
+			fmt.Printf("Error getting user's home directory: %v", err)
+		}
 	}
 
 	clsdFolderPath := filepath.Join(homeDir, ".config", clsdFolderName)
