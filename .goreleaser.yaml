@@ -49,12 +49,6 @@ builds:
 
 archives:
   - format: tar.gz
-    replace:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
     format_overrides:
       - goos: windows
         format: zip
@@ -93,8 +87,6 @@ nfpms:
   homepage: https://github.com/Abdiooa/zeroward/
   package_name: zeroward
   license: Apache
-  sboms:
-  - artifacts: archive
   formats:
   - deb
   - apk
