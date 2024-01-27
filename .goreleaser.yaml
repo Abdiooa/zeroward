@@ -91,13 +91,13 @@ nfpms:
     - apk
 
 brews:
-  - 
-    name: zeroward
-    homepage: https://github.com/Abdiooa/homebrew-tools
-    tap:
-      - name: Abdiooa
-        owner: homebrew-tools
-    commit_author:
-      name: Abdi Omar Ousleyeh
-      email: martelluiz@gmail.com
-    license: "Apache"
+- 
+  name: zeroward
+  homepage: https://github.com/Abdiooa/homebrew-tools
+  tap:
+    name: Abdiooa
+    owner: homebrew-tools
+  commit_author:
+    name: Abdi Omar Ousleyeh
+    email: martelluiz@gmail.com
+  license: "Apache"
