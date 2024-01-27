@@ -87,6 +87,3 @@ nfpms:
   homepage: https://github.com/Abdiooa/zeroward/
   package_name: zeroward
   license: Apache
-  formats:
-  - deb
-  - apk
