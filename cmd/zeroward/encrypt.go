@@ -1,12 +1,12 @@
-package clsdapp
+package zeroward
 
 import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/encryption"
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/genekeys"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/encryption"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/genekeys"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -49,12 +49,12 @@ var encryptCmd = &cobra.Command{
 		dek, err := genekeys.GenerateDek()
 		cobra.CheckErr(err)
 		if filePath != "" {
-			if err := encryption.Encrypt(filePath, dek); err != nil {
+			if err := encryption.EncryptFile(filePath, dek); err != nil {
 				fmt.Println("Error encrypting File:", err)
 				return
 			}
 		}
-		if err := encryption.Encrypt(dek, kekBytes); err != nil {
+		if err := encryption.EncryptKey(dek, kekBytes, filePath); err != nil {
 			fmt.Println("Error encrypting DEK:", err)
 			return
 		}
@@ -64,15 +64,4 @@ var encryptCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(encryptCmd)
-
-	// encryptCmd.Flags().StringP("filePath", "f", "", "Path of the file that you want to encrypt")
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// encryptCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// encryptCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -1,4 +1,4 @@
-module github.com/Abdiooa/CLSDAPP
+module github.com/Abdiooa/zeroward
 
 go 1.20
 

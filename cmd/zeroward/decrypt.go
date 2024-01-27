@@ -1,11 +1,11 @@
-package clsdapp
+package zeroward
 
 import (
 	"encoding/hex"
 	"fmt"
 	"os"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/decryption"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/decryption"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -52,14 +52,4 @@ func init() {
 	rootCmd.AddCommand(decryptCmd)
 
 	decryptCmd.Flags().StringP("dekkey", "k", "", "DEK Key to decrypt the file please!")
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// decryptCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// decryptCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

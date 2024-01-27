@@ -1,13 +1,13 @@
-package clsdapp
+package zeroward
 
 import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/encryption"
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/genekeys"
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/uploading"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/encryption"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/genekeys"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/uploading"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -62,7 +62,7 @@ var uploadCmd = &cobra.Command{
 		cobra.CheckErr(err)
 
 		if filePath != "" {
-			if err := encryption.Encrypt(filePath, dek); err != nil {
+			if err := encryption.EncryptFile(filePath, dek); err != nil {
 				fmt.Println("Error encrypting File:", err)
 				return
 			}
@@ -130,14 +130,4 @@ var uploadCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(uploadCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// uploadCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// uploadCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

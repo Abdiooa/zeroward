@@ -1,13 +1,10 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
-package clsdapp
+package zeroward
 
 import (
 	"fmt"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/listingobjects"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
+	listingobjects "github.com/Abdiooa/zeroward/pkg/zeroward/objects"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -62,14 +59,4 @@ var ObjectsCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(ObjectsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// ObjectsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// ObjectsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

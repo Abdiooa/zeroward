@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/aws/smithy-go"

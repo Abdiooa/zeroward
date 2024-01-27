@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Abdiooa/CLSDAPP/pkg/clsdapp/common"
+	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )

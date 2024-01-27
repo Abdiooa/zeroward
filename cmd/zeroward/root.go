@@ -1,19 +1,4 @@
-/*
-Copyright © 2024 Abdi Omar martelluiz125@gmail.com
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-	http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-package clsdapp
+package zeroward
 
 import (
 	"fmt"
@@ -45,14 +30,14 @@ var (
 	cfgFile string
 
 	rootCmd = &cobra.Command{
-		Use:   "CLSDAPP",
+		Use:   "zeroward",
 		Short: "Client-Side Data Encryption Cloud Security Application",
-		Long: `CLSDAPP is a command-line application developed in Golang that implements a client-centric 
+		Long: `zeroward is a command-line application developed in Golang that implements a client-centric 
 		approach to ensuring the security of data in cloud environments. It provides a robust solution 
 		for encrypting client data locally before uploading it to a cloud storage server. The application 
 		implements secure transmission protocols, ensuring data remains encrypted during transfer. 
 		Once stored, it adheres to security policies set by the cloud service provider, including additional 
-		encryption layers, access management, and continuous monitoring. CLSDAPP empowers users to actively 
+		encryption layers, access management, and continuous monitoring. zeroward empowers users to actively 
 		participate in securing their data, offering full control and confidence in maintaining the 
 		confidentiality and integrity of their information.`,
 		// Run: func(cmd *cobra.Command, args []string) {
@@ -116,11 +101,9 @@ func CreateConfigFile() error {
 		fmt.Printf("Error getting user's home directory: %v", err)
 	}
 
-	// Create CLSD folder path
 	clsdFolderPath := filepath.Join(homeDir, ".config", clsdFolderName)
 
 	if _, err := os.Stat(clsdFolderPath); os.IsNotExist(err) {
-		// CLSD folder does not exist, create and generate KEK key
 		err := os.Mkdir(clsdFolderPath, 0700) // Set read-write-execute for the owner only
 		if err != nil {
 			fmt.Printf("Error creating CLSD folder: %v", err)
