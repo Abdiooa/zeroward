@@ -91,7 +91,7 @@ nfpms:
     - apk
 
 brews:
-  -
+  - 
     name: zeroward
     homepage: https://github.com/Abdiooa/homebrew-tools
     tap:
