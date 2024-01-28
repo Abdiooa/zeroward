@@ -82,7 +82,8 @@ universal_binaries:
     replace: true
 
 nfpms:
-- maintainer: Abdi Omar Ousleyeh <martelluiz@gmail.com>
+- vendor: zeroward
+  maintainer: Abdi Omar Ousleyeh <martelluiz@gmail.com>
   description: zero knowledge encryption command line for securing files on the cloud storage
   homepage: https://github.com/Abdiooa/zeroward/
   package_name: zeroward
@@ -93,7 +94,6 @@ nfpms:
 
 brews:
 - 
-  vendor: zeroward
   name: zeroward
   homepage: https://github.com/Abdiooa/homebrew-tools
   repository:
