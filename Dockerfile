@@ -6,6 +6,6 @@ COPY . .
 
 RUN make build
 
-FROM scratch as scratch
+FROM alpine:latest
 COPY --from=build /app/bin/zeroward /bin/zeroward
-CMD ["./zeroward"]
+CMD ["/bin/zeroward"]
