@@ -74,6 +74,8 @@ changelog:
       - 'README'
       - Merge pull request
       - Merge branch
+      - '^.github:'
+      - '^.vscode:'
 
 release:
   prerelease: auto
@@ -105,15 +107,51 @@ brews:
     email: martelluiz@gmail.com
   license: "Apache"
 
+
+
+winget:
+  - # Name of the recipe
+    name: zeroward
+    publisher: Abdiooa
+    path: manifests/b/abdiooa/zeroward/{{ .Version }}
+    short_description: "zero knowledge encryption command line for securing files on the cloud storage"
+    license: "Apache"
+    package_identifier: Abdiooa.zeroward
+    url_template: https://github.com/Abdiooa/zeroward/releases/download/{{ .Tag }}/{{ .ArtifactName }}
+    goamd64: v1
+    commit_author:
+      name: Abdiooa
+      email: abdiooa45@gmail.com
+    commit_msg_template: "{{ .PackageIdentifier }}: {{ .Tag }}"
+    homepage: https://github.com/Abdiooa/zeroward/
+    license_url: https://github.com/Abdiooa/zeroward/blob/releaseco/LICENSE
+    skip_upload: auto
+    release_notes: "{{.Changelog}}"
+    repository:
+      owner: Abdiooa
+      name: winget-pkgs
+      branch: zeroward-{{ .Version }}
+      token: "{{ .Env.GITHUB_TOKEN }}"
+      pull_request:
+        enabled: true
+        draft: true
+        base:
+          owner: Abdiooa
+          name: winget-pkgs
+          branch: main
+    copyright: 2024 Abdi Omar Ousleyeh <martelluiz@gmail.com>
+
+
+
 chocolateys:
   - # Your app's package name.
     name: zeroward
-    owners: Abdi Omar Ousleyeh
+    owners: "Abdi Omar Ousleyeh"
     title: zeroward
     authors: Abdiooa
-    project_url: https://github.com/Abdiooa/zeroward/
-    url_template: https://github.com/Abdiooa/zeroward/releases/download/{{.Tag}}/{{.ProjectName}}_{{.Tag}}_windows-{{.Arch}}
-    project_source_url: https://github.com/Abdiooa/zeroward/
+    project_url: "https://github.com/Abdiooa/zeroward"
+    url_template: https://github.com/Abdiooa/zeroward/releases/download/{{ .Tag }}/{{ .ArtifactName }}
+    project_source_url: https://github.com/Abdishort_description:ooa/zeroward/
     summary: "zero knowledge encryption command line for securing files on the cloud storage"
     source_repo: "https://push.chocolatey.org/"
     api_key: "{{ .Env.CHOCOLATEY_API_KEY }}"
