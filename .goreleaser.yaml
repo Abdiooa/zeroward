@@ -144,7 +144,7 @@ winget:
 
 
 chocolateys:
-  - # Your app's package name.
+  - 
     name: zeroward
     owners: "Abdi Omar Ousleyeh"
     title: zeroward
