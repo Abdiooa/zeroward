@@ -24,10 +24,3 @@ build: dep
 
 clean:
 	rm -rf ./bin
-
-docker-build:
-	docker build -t abdiaoo/zeroward:${TAG} .
-	docker image prune --force --filter label=stage=intermediate
-
-docker-push:
-	docker push abdiaoo/zeroward:${TAG}

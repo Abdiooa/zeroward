@@ -26,9 +26,3 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.CLSDAPP_TOKEN }}
-      - name: Build Image
-        run: make docker-build
-      - name: Login to Docker hub 
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: Push Image to Docker Hub
-        run: make docker-push
