@@ -104,3 +104,21 @@ brews:
     name: Abdi Omar Ousleyeh
     email: martelluiz@gmail.com
   license: "Apache"
+
+chocolateys:
+  - # Your app's package name.
+    name: zeroward
+    owners: Abdi Omar Ousleyeh
+    title: zeroward
+    authors: Abdiooa
+    project_url: https://github.com/Abdiooa/zeroward/
+    url_template: https://github.com/Abdiooa/zeroward/releases/download/{{.LatestVersion}}/{{.ProjectName}}_{{.LatestVersion}}_windows-{{.Arch}}
+    project_source_url: https://github.com/Abdiooa/zeroward/
+    summary: "zero knowledge encryption command line for securing files on the cloud storage"
+    source_repo: "https://push.chocolatey.org/"
+    api_key: "{{ .Env.CHOCOLATEY_API_KEY }}"
+    skip_publish: false
+    goamd64: v1
+    require_license_acceptance: false
+    copyright: 2024 Abdi Omar Ousleyeh <martelluiz@gmail.com>
+    license_url: https://github.com/Abdiooa/zeroward/blob/releaseco/LICENSE
