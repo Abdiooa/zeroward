@@ -9,7 +9,6 @@ zeroward is a command-line zero-knowledge encryption command-line program to sec
 
 ## Features
 
-* Secures(Encrypt) users files before uploading them on the cloud.
 * Secures (Encrypts) user files before uploading them to the cloud.
 * Utilizes two keys for encryption/decryption:
   * A KEK (Key-Encryption-Key) to encrypt the DEK (Data-Encryption-Key).
