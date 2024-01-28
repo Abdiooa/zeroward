@@ -77,6 +77,24 @@ Visit the releases page on GitHub.
 ```
 zeroward.exe install
 ```
+### Usage
+```
+zeroward --help
+
+# List all buckets
+zeroward buckets --accessKeyID accesskeyid --secretAccessKey secretacccesskey
+
+# List objects in a bucket
+zeroward objects --bcktname bucketname --accessKeyID accesskeyid --secretAccessKey secretacccesskey
+
+# Upload a file to the cloud
+zeroward upload --bcktname bucketname --filePath pathtothefile --passphrase passphrase --objectkey paththefilestoredgonnastored 
+
+# Download a file from the cloud
+zeroward download --filePath pathtothefile --objectkey --accessKeyID accesskeyid --secretAccessKey secretacccesskeypaththefilestoredonthecloud --bcktname bucketname --removeAfterDownload y --accessKeyID accesskeyid --secretAccessKey secretacccesskey
+
+```
+the access id key, the secret access key and the passphrase are just meant to be defined for the first use of the application
 License
 -------
 
