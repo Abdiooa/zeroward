@@ -19,8 +19,25 @@ zeroward is a command-line zero-knowledge encryption command-line program to sec
 * The program gives user a user-friendly interracting with his objects/buckets that he has in the cloud storages
 * For the encryption of the user files and the keys, AES-256-gcm algorithm is used to ensure the security of user files and keys, which is a very strong algorithm
 
-## Installation & Get-Starting
+## Installation & Get-Started
+### Prerequisites
+NOTE: Don't worry about the program it is secure and simple.
+You don't need no prerequisites, just follow the process of installation for you os plateform
 
+### Linux/Darwin(MacOs)
+#### Use of Homebrew-tools
+i was joking about the no-need of prerequisites, you need to have Brew install for those two os plateform
+
+Install [zeroward](https://github.com/Abdiooa/zeroward/):
+
+```
+brew install zeroward
+```
+Upgrade the zeroward CLI program to the latest version:
+
+```
+brew upgrade zeroward
+```
 
 License
 -------
