@@ -19,14 +19,14 @@ dep:
 	go mod download
 
 build: dep
-    mkdir -p ./bin
+	mkdir -p ./bin
 	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${LDFLAGS} -o bin/${PROGRAM_NAME} ./main.go
 
 clean:
 	rm -rf ./bin
 
 docker-build:
-	docker build -t abdiaoo/zeroward:${TAG}
+	docker build -t abdiaoo/zeroward:${TAG} .
 	docker image prune --force --filter label=stage=intermediate
 
 docker-push:
