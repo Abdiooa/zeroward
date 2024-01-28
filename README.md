@@ -10,14 +10,15 @@ zeroward is a command-line zero-knowledge encryption command-line program to sec
 ## Features
 
 * Secures(Encrypt) users files before uploading them on the cloud.
-* Uses two key for encryptions/decryptions
-* A KEK (Key-Encryption-Key) to encrypt the DEK(Data-Encryption-Key)
-* The DEK is used to encrypt files, then attached with the file as metadata
-* The KEK is on the possession of the user,
-* The KEK is generate from a passphrase defined by the user in the first use
-* the KEK is then stored in a secure place on the user system
-* The program gives user a user-friendly interracting with his objects/buckets that he has in the cloud storages
-* For the encryption of the user files and the keys, AES-256-gcm algorithm is used to ensure the security of user files and keys, which is a very strong algorithm
+* Secures (Encrypts) user files before uploading them to the cloud.
+* Utilizes two keys for encryption/decryption:
+  * A KEK (Key-Encryption-Key) to encrypt the DEK (Data-Encryption-Key).
+  * The DEK is used to encrypt files and is attached to the file as metadata.
+* The KEK is in the possession of the user.
+* The KEK is generated from a passphrase defined by the user during the first use.
+* The KEK is then stored securely on the user's system.
+* Provides a user-friendly interface for interacting with objects/buckets on cloud storage.
+* Uses the AES-256-GCM algorithm for file and key encryption.
 
 ## Installation & Get-Started
 ### Prerequisites
@@ -26,7 +27,8 @@ You don't need no prerequisites, just follow the process of installation for you
 
 ### Linux/Darwin(MacOs)
 #### Use of Homebrew-tools
-i was joking about the no-need of prerequisites, you need to have Brew install for those two os plateform
+
+Ensure Homebrew is installed for Linux and MacOS:
 
 Install [zeroward](https://github.com/Abdiooa/zeroward/):
 
@@ -39,6 +41,42 @@ Upgrade the zeroward CLI program to the latest version:
 brew upgrade zeroward
 ```
 
+#### Use of the released packages
+Download Released Packages (Linux/MacOS)
+
+Downloading and Installing (Debian)
+Download the latest release for Linux (amd64) from the [releases](https://github.com/Abdiooa/zeroward/releases) page:
+
+```
+wget https://github.com/Abdiooa/zeroward/releases/latest/download/zeroward_linux_amd64.deb
+```
+Install the downloaded Debian package using dpkg:
+```
+sudo dpkg -i zeroward_linux_amd64.deb
+```
+
+Alternatively, for other architectures or package formats:
+```
+wget https://github.com/Abdiooa/zeroward/releases/download/vX.Y.Z/zeroward_X.Y.Z_Linux_amd64.tar.gz
+tar -zxvf zeroward_X.Y.Z_Linux_amd64.tar.gz
+sudo mv zeroward /usr/local/bin/
+```
+Repeat the process for other architectures or package formats.
+
+#### Windows
+1. Download and Install
+Visit the releases page on GitHub.
+
+2. Download the latest release zip file (e.g., zeroward_windows_amd64.zip).
+
+3. Extract the contents of the zip file.
+
+4. Open a command prompt in the extracted folder.
+
+5. Run the following command to install zeroward:
+```
+zeroward.exe install
+```
 License
 -------
 
