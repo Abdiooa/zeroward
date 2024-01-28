@@ -3,14 +3,12 @@ version: 1
 
 before:
   hooks:
-    - go mod tidy
+    - make dep
 
 builds:
   - id: zeroward
     main: ./main.go
     binary: zeroward
-    flags:
-      - -mod=vendor
     goos:
       - linux
       - windows
@@ -22,6 +20,7 @@ builds:
     ldflags:
       - -a -installsuffix cgo
       - -X main.gitTag={{.Tag}} -X main.gitCommit={{.Commit}} -X main.gitBranch={{.Branch}}
+
     env:
       - CGO_ENABLED=0
       - >-
@@ -31,6 +30,7 @@ builds:
         {{- end }}
         {{- if eq .Os "windows" }}
           {{- if eq .Arch "amd64" }}CC=x86_64-w64-mingw32-gcc{{- end }}
+          {{- if eq .Arch "amd64" }}GOFLAGS=-ldflags=-w -buildmode=exe{{- end }}
         {{- end }}
         {{- if eq .Os "linux" }}
           {{- if eq .Arch "arm64" }}CC=aarch64-linux-gnu-gcc{{- end }}
@@ -47,7 +47,9 @@ builds:
 
 
 archives:
-  - format: tar.gz
+  - 
+    builds: [zeroward]
+    format: tar.gz
     format_overrides:
       - goos: windows
         format: zip
@@ -77,11 +79,12 @@ release:
   prerelease: auto
 
 universal_binaries:
-  - # ID of resulting universal binary.
+  - 
     replace: true
 
 nfpms:
-- maintainer: Abdi Omar Ousleyeh <martelluiz@gmail.com>
+- vendor: zeroward
+  maintainer: Abdi Omar Ousleyeh <martelluiz@gmail.com>
   description: zero knowledge encryption command line for securing files on the cloud storage
   homepage: https://github.com/Abdiooa/zeroward/
   package_name: zeroward

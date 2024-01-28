@@ -3,8 +3,6 @@ name: goreleaser
 
 on:
   push:
-    # branches:
-    #   - 'main'
     tags:
       - "v*"
 
@@ -12,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -28,3 +26,9 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.CLSDAPP_TOKEN }}
+      - name: Build Image
+        run: make docker-build
+      - name: Login to Docker hub 
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Image to Docker Hub
+        run: make docker-push
