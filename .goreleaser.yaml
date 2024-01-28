@@ -18,7 +18,8 @@ builds:
       - arm64
     
     ldflags:
-      - "{{ LDFLAGS }}"
+      - -a -installsuffix cgo
+      - -X main.gitTag={{.Tag}} -X main.gitCommit={{.Commit}} -X main.gitBranch={{.Branch}}
 
     env:
       - CGO_ENABLED=0
