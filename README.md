@@ -93,8 +93,8 @@ zeroward upload --bcktname bucketname --filePath pathtothefile --passphrase pass
 zeroward download --filePath pathtothefile --objectkey --accessKeyID accesskeyid --secretAccessKey secretacccesskeypaththefilestoredonthecloud --bcktname bucketname --removeAfterDownload y --accessKeyID accesskeyid --secretAccessKey secretacccesskey
 
 ```
-the access id key, the secret access key and the passphrase are just meant to be defined for the first use of the application
+#### the access id key, the secret access key and the passphrase are just meant to be defined for the first use of the application
+
 License
 -------
-
 This is free secure software under the terms of the Apache License.
