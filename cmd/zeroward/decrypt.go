@@ -37,7 +37,7 @@ var decryptCmd = &cobra.Command{
 
 		if filePath != "" {
 			if err := decryption.DecryptFile(filePath, dekkey); err != nil {
-				fmt.Println("Error encrypting File:", err)
+				fmt.Println("Error Decrypting File:", err)
 				return
 			}
 		}
