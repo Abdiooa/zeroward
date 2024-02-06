@@ -97,7 +97,7 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 	}
 
 	// Decrypt the body with the DEK key
-	body, err := decryption.DecryptData(encryptedBody, dekkey)
+	body, err := decryption.DecryptFile(encryptedBody, dekkey)
 	if err != nil {
 		return fmt.Errorf("error decrypting file body: %v", err)
 	}

@@ -36,10 +36,26 @@ var decryptCmd = &cobra.Command{
 		}
 
 		if filePath != "" {
-			if err := decryption.DecryptFile(filePath, dekkey); err != nil {
+			ciphertext, err := os.ReadFile(filePath)
+			if err != nil {
+				fmt.Printf("error reading ciphertext file: %v", err)
+				return
+			}
+			decryptedData, err := decryption.DecryptFile(ciphertext, dekkey)
+			if err != nil {
 				fmt.Println("Error Decrypting File:", err)
 				return
 			}
+			if err := os.Remove(filePath); err != nil {
+				fmt.Printf("error: %v", err)
+				return
+			}
+			decryptedFilePath := filePath[:len(filePath)-4]
+			if err := os.WriteFile(decryptedFilePath, decryptedData, 0644); err != nil {
+				fmt.Printf("error: %v", err)
+				return
+			}
+
 		}
 		if err := os.Remove(dekkeyPath); err != nil {
 			fmt.Println("Error:", err)

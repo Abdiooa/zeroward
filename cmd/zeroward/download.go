@@ -5,7 +5,6 @@ import (
 
 	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
 	"github.com/Abdiooa/zeroward/pkg/zeroward/downloading"
-	"github.com/Abdiooa/zeroward/pkg/zeroward/genekeys"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -21,7 +20,7 @@ var downloadCmd = &cobra.Command{
 
 		secretAccessKey, _ := cmd.Flags().GetString("secretAccessKey")
 
-		passphrase, _ := cmd.Flags().GetString("passphrase")
+		// passphrase, _ := cmd.Flags().GetString("passphrase")
 
 		bcktName, _ := cmd.Flags().GetString("bcktname")
 
@@ -30,22 +29,6 @@ var downloadCmd = &cobra.Command{
 		objectkey, _ := cmd.Flags().GetString("objectkey")
 
 		removeAfterDownload, _ := cmd.Flags().GetString("removeAfterDownload")
-
-		firstEncryption := common.IsFirstEncryption()
-
-		if firstEncryption {
-			if passphrase == "" {
-				fmt.Println("Error: Passphrase is required for the first encryption. Please provide a passphrase using the --passphrase flag.")
-				return
-			}
-
-			kekKey, err := genekeys.GenerateKek(passphrase)
-			if err != nil {
-				fmt.Println("Error:", err)
-				return
-			}
-			common.UpdateKEKKey(kekKey)
-		}
 
 		KeyAccessDefined := common.IsNotKeyAccessDefined()
 		region := viper.GetString("Region")

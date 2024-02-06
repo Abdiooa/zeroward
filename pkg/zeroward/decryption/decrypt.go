@@ -25,11 +25,11 @@ func DecryptKey(encryptedKeyFile string, kekKey []byte) ([]byte, error) {
 	return decryptedKey, nil
 }
 
-func DecryptFile(cipherFile string, dekKey []byte) error {
-	ciphertext, err := os.ReadFile(cipherFile)
-	if err != nil {
-		return fmt.Errorf("error reading ciphertext file: %v", err)
-	}
+func DecryptFile(ciphertext []byte, dekKey []byte) ([]byte, error) {
+	// ciphertext, err := os.ReadFile(cipherFile)
+	// if err != nil {
+	// 	return fmt.Errorf("error reading ciphertext file: %v", err)
+	// }
 
 	blockSize := 1024 + 4 + 16 + 12 // Include space for checksum
 	var decryptedData []byte
@@ -43,25 +43,25 @@ func DecryptFile(cipherFile string, dekKey []byte) error {
 		// Decrypt each block
 		decryptedBlock, err := DecryptData(block, dekKey)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		originalData, err := VerifyChecksum(decryptedBlock)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		decryptedData = append(decryptedData, originalData...)
 	}
-	if err := os.Remove(cipherFile); err != nil {
-		return err
-	}
+	// if err := os.Remove(cipherFile); err != nil {
+	// 	return err
+	// }
 	// Remove the ".enc" extension from the file name
-	decryptedFilePath := cipherFile[:len(cipherFile)-4]
+	// decryptedFilePath := cipherFile[:len(cipherFile)-4]
 
-	if err := os.WriteFile(decryptedFilePath, decryptedData, 0644); err != nil {
-		return err
-	}
+	// if err := os.WriteFile(decryptedFilePath, decryptedData, 0644); err != nil {
+	// 	return err
+	// }
 
-	return nil
+	return decryptedData, nil
 }
 
 func DecryptData(ciphertext, key []byte) ([]byte, error) {
