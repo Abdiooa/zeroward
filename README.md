@@ -47,13 +47,17 @@ Downloading and Installing (Debian)
 Download the latest release for Linux (amd64) from the [releases](https://github.com/Abdiooa/zeroward/releases) page:
 
 ```
-wget https://github.com/Abdiooa/zeroward/releases/latest/download/zeroward_linux_amd64.deb
+wget https://github.com/Abdiooa/zeroward/releases/vtag/download/zeroward_vtag_linux_amd64.deb
 ```
+please make sure to replace the vtag the tag version you want, you can see the latest one here [releases](https://github.com/Abdiooa/zeroward/releases)
 Install the downloaded Debian package using dpkg:
 ```
 sudo dpkg -i zeroward_linux_amd64.deb
 ```
-
+To uninstall it use this command:
+```
+sudo apt-get remove zeroward
+```
 Alternatively, for other architectures or package formats:
 ```
 wget https://github.com/Abdiooa/zeroward/releases/download/vX.Y.Z/zeroward_X.Y.Z_Linux_amd64.tar.gz
