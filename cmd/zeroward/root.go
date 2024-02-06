@@ -12,7 +12,7 @@ import (
 
 const (
 	configFileName        = "config.json"
-	clsdFolderName        = "CLSD"
+	clsdFolderName        = "zeroward"
 	awsFolderName         = ".aws"
 	credentialsFileName   = "credentials.json"
 	defaultAWSRegion      = "auto"
