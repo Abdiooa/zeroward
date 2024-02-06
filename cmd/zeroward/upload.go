@@ -86,7 +86,7 @@ var uploadCmd = &cobra.Command{
 
 		if KeyAccessDefined {
 			if accessKeyID == "" || secretAccessKey == "" || bcktName == "" {
-				fmt.Println("Error: Access Key ID and Secret Access Key are required as for your login and password of the Yandex Cloud Storage, also the bucket name is required!")
+				fmt.Println("Error: Access Key ID and Secret Access Key are required as for your login and password of the Cloud Storage, also the bucket name is required!")
 				return
 			}
 			if filePath == "" {

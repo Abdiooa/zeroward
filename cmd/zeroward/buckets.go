@@ -12,8 +12,8 @@ import (
 // bucketsCmd represents the buckets command
 var bucketsCmd = &cobra.Command{
 	Use:   "buckets",
-	Short: "List All Buckets(Folders) stored on the Yandex Cloud Storage",
-	Long:  `This command is used to list all your buckets(folders) that are stored for you on the yandex cloud storage.`,
+	Short: "List All Buckets(Folders) stored on the Cloud Storage",
+	Long:  `This command is used to list all your buckets(folders) that are stored for you on the cloud storage.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		accessKeyID, _ := cmd.Flags().GetString("accessKeyID")
@@ -25,7 +25,7 @@ var bucketsCmd = &cobra.Command{
 
 		if KeyAccessDefined {
 			if accessKeyID == "" || secretAccessKey == "" {
-				fmt.Println("Error: Access Key ID and Secret Access Key are required as for your login and password of the Yandex Cloud Storage.")
+				fmt.Println("Error: Access Key ID and Secret Access Key are required as for your login and password of the Cloud Storage.")
 				return
 			}
 
