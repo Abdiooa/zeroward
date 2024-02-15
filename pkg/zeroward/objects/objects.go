@@ -29,10 +29,11 @@ func ListObjects(awsRegion string, accessKeyId string, accessKeySecret string, b
 	var rows [][]string
 
 	for _, object := range result.Contents {
+		size := formatSize(*object.Size)
 		// Add a row for each object
 		rows = append(rows, []string{
 			aws.ToString(object.Key),
-			fmt.Sprintf("%d", object.Size),
+			size,
 			object.LastModified.Format("2006-01-02 15:04:05 Monday"),
 		})
 	}
@@ -40,4 +41,15 @@ func ListObjects(awsRegion string, accessKeyId string, accessKeySecret string, b
 	common.RenderTable(header, rows)
 
 	return nil
+}
+
+func formatSize(size int64) string {
+	sizes := []string{"B", "KB", "MB", "GB", "TB"}
+	floatSize := float64(size)
+	i := 0
+	for floatSize >= 1024 && i < len(sizes)-1 {
+		floatSize /= 1024
+		i++
+	}
+	return fmt.Sprintf("%.2f %s", floatSize, sizes[i])
 }

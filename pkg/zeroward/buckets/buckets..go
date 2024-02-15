@@ -22,13 +22,19 @@ func ListBuckets(awsRegion string, accessKeyId string, accessKeySecret string) (
 		return fmt.Errorf("listing buckets failed: %s", err)
 	}
 
-	header := []string{"Bucket", "Creation Time"}
+	header := []string{"Bucket", "Objects", "Creation Time"}
 	var rows [][]string
-
 	for _, bucket := range result.Buckets {
+		objResult, err := client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+			Bucket: aws.String(*bucket.Name),
+		})
+		if err != nil {
+			return fmt.Errorf("listing objects in bucket %s failed: %s", aws.ToString(bucket.Name), err)
+		}
 		// Add a row for each bucket
 		rows = append(rows, []string{
 			aws.ToString(bucket.Name),
+			fmt.Sprintf("%dobjcs", len(objResult.Contents)),
 			bucket.CreationDate.Format(time.RFC3339),
 		})
 	}
