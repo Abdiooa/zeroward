@@ -25,7 +25,7 @@ func ListObjects(awsRegion string, accessKeyId string, accessKeySecret string, b
 		log.Fatal(err)
 	}
 
-	header := []string{"Object", "Size (Bytes)", "Last Modified"}
+	header := []string{"Object", "Size", "Last Modified"}
 	var rows [][]string
 
 	for _, object := range result.Contents {
