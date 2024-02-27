@@ -32,9 +32,9 @@ var (
 
 	rootCmd = &cobra.Command{
 		Use:   "zeroward",
-		Short: "Client-Side Data Encryption Cloud Security Application",
-		Long: `zeroward is a command-line application developed in Golang that implements a client-centric 
-		approach to ensuring the security of data in cloud environments. It provides a robust solution 
+		Short: "Zero-Knowledge-Encryption Cloud Storage Security Application",
+		Long: `zeroward is a zero-knowledge-ecryption command-line application that secures client data at all stage(locally,
+		 during transmission to the cloud, and at rest). It provides a robust solution 
 		for encrypting client data locally before uploading it to a cloud storage server. The application 
 		implements secure transmission protocols, ensuring data remains encrypted during transfer. 
 		Once stored, it adheres to security policies set by the cloud service provider, including additional 
