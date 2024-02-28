@@ -6,76 +6,52 @@ import (
 	"github.com/Abdiooa/zeroward/pkg/zeroward/common"
 	"github.com/Abdiooa/zeroward/pkg/zeroward/downloading"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // downloadCmd represents the download command
 var downloadCmd = &cobra.Command{
 	Use:   "download",
 	Short: "Download Command to download Files from the cloud.",
-	Long:  `This command is used to download User Objects(Files) from the cloud storage.`,
+	Long:  `This command is used to download User Objects(Files) from the cloud storage, also gives you an readable files if the files were encrypted.`,
 	Run: func(cmd *cobra.Command, args []string) {
-
 		accessKeyID, _ := cmd.Flags().GetString("accessKeyID")
-
 		secretAccessKey, _ := cmd.Flags().GetString("secretAccessKey")
-
-		// passphrase, _ := cmd.Flags().GetString("passphrase")
-
-		bcktName, _ := cmd.Flags().GetString("bcktname")
-
+		bcktName, _ := cmd.Flags().GetString("bucketName")
 		filePath, _ := cmd.Flags().GetString("filePath")
-
 		objectkey, _ := cmd.Flags().GetString("objectkey")
+		removeAfterDownload, _ := cmd.Flags().GetBool("remove")
+		decryptWhileDownloading, _ := cmd.Flags().GetBool("decrypt")
 
-		removeAfterDownload, _ := cmd.Flags().GetString("removeAfterDownload")
-
-		KeyAccessDefined := common.IsNotKeyAccessDefined()
-		region := viper.GetString("Region")
-		if KeyAccessDefined {
-
-			if accessKeyID == "" || secretAccessKey == "" || bcktName == "" {
-				fmt.Println("Error: Access Key ID and Secret Access Key are required as for your login and password of the Cloud Storage, also the bucket name is required!")
+		if decryptWhileDownloading {
+			if err := handleDownload(accessKeyID, secretAccessKey, bcktName, filePath, objectkey, removeAfterDownload); err != nil {
+				fmt.Println("Error:", err)
 				return
 			}
-
-			if filePath == "" || objectkey == "" {
-				fmt.Println("Error: FilePath and ObjectKey are required!")
-				return
-			}
-
-			common.StoreCredentials(accessKeyID, secretAccessKey, region)
-
-			err := downloading.DownloadObject(region, accessKeyID, secretAccessKey, bcktName, filePath, objectkey, removeAfterDownload)
-
+		} else {
+			accessKeyID, secretAccessKey, region, err := common.HandleCredentials(accessKeyID, secretAccessKey)
 			if err != nil {
 				fmt.Println("Error:", err)
 				return
 			}
-		}
-
-		if bcktName == "" {
-			fmt.Println("Error:  the bucket name is required!")
-			return
-		}
-
-		if !KeyAccessDefined {
-
-			if filePath == "" || objectkey == "" {
-				fmt.Println("Error: FilePath and ObjectKey are required!")
+			if err := downloading.DownloadNormalObject(region, accessKeyID, secretAccessKey, bcktName, filePath, objectkey, removeAfterDownload); err != nil {
+				fmt.Println("Error:", err)
 				return
-			} else {
-				err := downloading.DownloadObject(region, viper.GetString("AWSAccessKeyID"), viper.GetString("AWSSecretAccessKey"), bcktName, filePath, objectkey, removeAfterDownload)
-				if err != nil {
-					fmt.Println("Error:", err)
-					return
-				}
 			}
 		}
 	},
 }
 
+func handleDownload(accessKeyID, secretAccessKey, bcktName, filePath, objectkey string, removeAfterDownload bool) error {
+	accessKeyID, secretAccessKey, region, err := common.HandleCredentials(accessKeyID, secretAccessKey)
+	if err != nil {
+		return err
+	}
+
+	return downloading.DownloadObject(region, accessKeyID, secretAccessKey, bcktName, filePath, objectkey, removeAfterDownload)
+}
+
 func init() {
 	rootCmd.AddCommand(downloadCmd)
-	downloadCmd.Flags().StringP("removeAfterDownload", "r", "", "write (yes/y) for removing the file from the cloud storage after successful download, else don't specify anything")
+	downloadCmd.Flags().BoolP("remove", "r", false, "Remove the file from the cloud storage after successful download")
+	downloadCmd.Flags().BoolP("decrypt", "d", false, "Decrypt file while downloading")
 }

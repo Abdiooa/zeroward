@@ -20,7 +20,7 @@ var removeCmd = &cobra.Command{
 
 		secretAccessKey, _ := cmd.Flags().GetString("secretAccessKey")
 
-		bcktName, _ := cmd.Flags().GetString("bcktname")
+		bcktName, _ := cmd.Flags().GetString("bucketName")
 
 		objectkey, _ := cmd.Flags().GetString("objectkey")
 

@@ -94,3 +94,19 @@ func UpdateKEKKey(kek []byte) {
 		os.Exit(1)
 	}
 }
+
+func HandleCredentials(accessKeyID, secretAccessKey string) (string, string, string, error) {
+	KeyAccessDefined := IsNotKeyAccessDefined()
+	region := viper.GetString("Region")
+
+	if KeyAccessDefined {
+		if accessKeyID == "" || secretAccessKey == "" {
+			return "", "", "", fmt.Errorf("error: Access Key ID and Secret Access Key are required as for your login and password of the Cloud Storage, also the bucket name is required")
+		}
+
+		StoreCredentials(accessKeyID, secretAccessKey, region)
+		return accessKeyID, secretAccessKey, region, nil
+	}
+
+	return viper.GetString("AWSAccessKeyID"), viper.GetString("AWSSecretAccessKey"), region, nil
+}

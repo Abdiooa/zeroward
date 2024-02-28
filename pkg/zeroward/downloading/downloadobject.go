@@ -19,7 +19,7 @@ import (
 
 const DEKKeyMetadataKey = "dek-key" // Metadata key for the DEK key
 
-func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFilePath string, objectKey string, removeAfterDownload string) error {
+func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFilePath string, objectKey string, removeAfterDownload bool) error {
 
 	client, err := common.SetupS3Client(awsRegion, accessKeyId, accessKeySecret)
 	if err != nil {
@@ -109,7 +109,7 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 	outputFile := objectKey[:len(objectKey)-4]
 	fmt.Printf("File '%s' downloaded successfully from S3://%s/%s to %s\n", outputFile, bucketName, objectKey, localFilePath)
 
-	if removeAfterDownload == "yes" || removeAfterDownload == "y" {
+	if removeAfterDownload {
 		err := removeFileFromCloudStorage(client, bucketName, objectKey)
 		if err != nil {
 			return fmt.Errorf("error removing file from cloud storage: %v", err)
@@ -120,7 +120,75 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 	return nil
 
 }
+func DownloadNormalObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFilePath string, objectKey string, removeAfterDownload bool) error {
+	client, err := common.SetupS3Client(awsRegion, accessKeyId, accessKeySecret)
+	if err != nil {
+		return err
+	}
 
+	// Check if the object exists in the bucket
+	_, err = client.HeadObject(context.TODO(), &s3.HeadObjectInput{
+		Bucket: &bucketName,
+		Key:    &objectKey,
+	})
+
+	if err != nil {
+		var apiError smithy.APIError
+		if errors.As(err, &apiError) {
+			switch apiError.(type) {
+			case *types.NotFound:
+				return fmt.Errorf("object not found: %s/%s", bucketName, objectKey)
+			default:
+				// Handle other errors
+				return fmt.Errorf("error checking if the object exists: %v", err)
+			}
+		}
+	}
+	fileName := filepath.Base(objectKey)
+	localFile := filepath.Join(localFilePath, fileName)
+
+	file, err := os.Create(localFile)
+	if err != nil {
+		return fmt.Errorf("error creating local file: %v", err)
+	}
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil {
+			fmt.Printf("error closing the local file: %v\n", closeErr)
+		}
+	}()
+	// Download the object from S3
+	result, err := client.GetObject(context.TODO(), &s3.GetObjectInput{
+		Bucket: &bucketName,
+		Key:    &objectKey,
+	})
+
+	if err != nil {
+		return fmt.Errorf("error downloading the file from cloud storage: %v", err)
+	}
+
+	defer result.Body.Close()
+
+	Body, err := io.ReadAll(result.Body)
+	if err != nil {
+		return fmt.Errorf("error reading the body of the file: %v", err)
+	}
+	_, err = file.Write(Body)
+	if err != nil {
+		return fmt.Errorf("error writing the body on the local file: %v", err)
+	}
+
+	fmt.Printf("File '%s' downloaded successfully from S3://%s/%s to %s\n", objectKey, bucketName, objectKey, localFilePath)
+
+	if removeAfterDownload {
+		err := removeFileFromCloudStorage(client, bucketName, objectKey)
+		if err != nil {
+			return fmt.Errorf("error removing file from cloud storage: %v", err)
+		}
+		fmt.Printf("File '%s' removed from S3://%s/%s\n", objectKey, bucketName, objectKey)
+	}
+
+	return nil
+}
 func removeFileFromCloudStorage(client *s3.Client, bucketName, objectKey string) error {
 	_, err := client.DeleteObject(
 		context.TODO(),
