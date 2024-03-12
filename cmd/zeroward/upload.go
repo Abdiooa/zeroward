@@ -25,7 +25,7 @@ var uploadCmd = &cobra.Command{
 		passphrase, _ := cmd.Flags().GetString("passphrase")
 		filePath, _ := cmd.Flags().GetString("filePath")
 		objectkey, _ := cmd.Flags().GetString("objectkey")
-		encrypt, _ := cmd.Flags().GetBool("encrypt") // Change to GetBool
+		encrypt, _ := cmd.Flags().GetBool("encrypt")
 
 		if encrypt {
 			if err := handleEncryptionAndUpload(accessKeyID, secretAccessKey, bcktName, filePath, passphrase, objectkey); err != nil {

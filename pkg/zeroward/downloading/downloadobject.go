@@ -17,7 +17,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const DEKKeyMetadataKey = "dek-key" // Metadata key for the DEK key
+const DEKKeyMetadataKey = "dek-key"
 
 func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFilePath string, objectKey string, removeAfterDownload bool) error {
 
@@ -26,7 +26,6 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 		return err
 	}
 
-	// Check if the object exists in the bucket
 	_, err = client.HeadObject(context.TODO(), &s3.HeadObjectInput{
 		Bucket: &bucketName,
 		Key:    &objectKey,
@@ -39,7 +38,7 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 			case *types.NotFound:
 				return fmt.Errorf("object not found: %s/%s", bucketName, objectKey)
 			default:
-				// Handle other errors
+
 				return fmt.Errorf("error checking if the object exists: %v", err)
 			}
 		}
@@ -57,7 +56,6 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 		}
 	}()
 
-	// Download the object from S3
 	result, err := client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: &bucketName,
 		Key:    &objectKey,
@@ -74,7 +72,6 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 		return fmt.Errorf("error reading the body of the file: %v", err)
 	}
 
-	// Retrieve DEK key from metadata
 	dekKeyString, ok := result.Metadata[DEKKeyMetadataKey]
 	if !ok {
 		return fmt.Errorf("dek key not found in metadata")
@@ -84,7 +81,6 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 		return fmt.Errorf("error decoding DEK key: %v", err)
 	}
 
-	// Decrypt the DEK key with the KEK
 	kekk := viper.GetString("KEKkey")
 	kekBytes, err := hex.DecodeString(kekk)
 	if err != nil {
@@ -96,7 +92,6 @@ func DownloadObject(awsRegion, accessKeyId, accessKeySecret, bucketName, localFi
 		return fmt.Errorf("error decrypting DEK key: %v", err)
 	}
 
-	// Decrypt the body with the DEK key
 	body, err := decryption.DecryptFile(encryptedBody, dekkey)
 	if err != nil {
 		return fmt.Errorf("error decrypting file body: %v", err)
@@ -126,7 +121,6 @@ func DownloadNormalObject(awsRegion, accessKeyId, accessKeySecret, bucketName, l
 		return err
 	}
 
-	// Check if the object exists in the bucket
 	_, err = client.HeadObject(context.TODO(), &s3.HeadObjectInput{
 		Bucket: &bucketName,
 		Key:    &objectKey,
@@ -139,7 +133,7 @@ func DownloadNormalObject(awsRegion, accessKeyId, accessKeySecret, bucketName, l
 			case *types.NotFound:
 				return fmt.Errorf("object not found: %s/%s", bucketName, objectKey)
 			default:
-				// Handle other errors
+
 				return fmt.Errorf("error checking if the object exists: %v", err)
 			}
 		}
@@ -156,7 +150,7 @@ func DownloadNormalObject(awsRegion, accessKeyId, accessKeySecret, bucketName, l
 			fmt.Printf("error closing the local file: %v\n", closeErr)
 		}
 	}()
-	// Download the object from S3
+
 	result, err := client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: &bucketName,
 		Key:    &objectKey,

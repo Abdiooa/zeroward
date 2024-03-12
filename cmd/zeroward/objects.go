@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// ObjectsCmd represents the Objects command
 var ObjectsCmd = &cobra.Command{
 	Use:   "objects",
 	Short: "List All Objects(Files/Images/Docs) stored on the Cloud Storage",

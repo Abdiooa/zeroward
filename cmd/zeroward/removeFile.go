@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// removeFileCmd represents the removeFile command
 var removeCmd = &cobra.Command{
 	Use:   "remove",
 	Short: "Remove Command to delete a file from cloud storage",

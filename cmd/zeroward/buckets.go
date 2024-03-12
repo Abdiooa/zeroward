@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// bucketsCmd represents the buckets command
 var bucketsCmd = &cobra.Command{
 	Use:   "buckets",
 	Short: "List All Buckets(Folders) stored on the Cloud Storage",

@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// decryptCmd represents the decrypt command
 var decryptCmd = &cobra.Command{
 	Use:   "decrypt",
 	Short: "Command to decrypt user encrypted file",
@@ -18,7 +17,7 @@ var decryptCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		filePath, _ := cmd.Flags().GetString("filePath")
 
-		dekkeyPath, _ := cmd.Flags().GetString("dekkey")
+		// dekkeyPath, _ := cmd.Flags().GetString("dekkey")
 
 		kekk := viper.GetString("KEKkey")
 
@@ -28,7 +27,7 @@ var decryptCmd = &cobra.Command{
 			fmt.Println("Error:", err)
 			return
 		}
-		dekkey, err := decryption.DecryptKey(dekkeyPath, kekBytes)
+		dekkey, err := decryption.DecryptKey(filePath, kekBytes)
 
 		if err != nil {
 			fmt.Println("Error:", err)
@@ -57,15 +56,15 @@ var decryptCmd = &cobra.Command{
 			}
 
 		}
-		if err := os.Remove(dekkeyPath); err != nil {
-			fmt.Println("Error:", err)
-			return
-		}
+		// if err := os.Remove(dekkeyPath); err != nil {
+		// 	fmt.Println("Error:", err)
+		// 	return
+		// }
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(decryptCmd)
 
-	decryptCmd.Flags().StringP("dekkey", "k", "", "DEK Key to decrypt the file please!")
+	// decryptCmd.Flags().StringP("dekkey", "k", "", "DEK Key to decrypt the file please!")
 }

@@ -11,7 +11,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// encryptCmd represents the encrypt command
 var encryptCmd = &cobra.Command{
 	Use:   "encrypt",
 	Short: "Encrypt a file Locally",
@@ -36,7 +35,7 @@ var encryptCmd = &cobra.Command{
 			}
 			common.UpdateKEKKey(kekKey)
 		}
-		// Use the existing KEKKey
+
 		kekk := viper.GetString("KEKkey")
 
 		kekBytes, err := hex.DecodeString(kekk)
@@ -47,6 +46,7 @@ var encryptCmd = &cobra.Command{
 		}
 
 		dek, err := genekeys.GenerateDek()
+
 		cobra.CheckErr(err)
 		if filePath != "" {
 			if err := encryption.EncryptFile(filePath, dek); err != nil {
