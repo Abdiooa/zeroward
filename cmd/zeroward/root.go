@@ -101,7 +101,6 @@ func initConfig() {
 	}
 }
 
-// CreateConfigFile attempts to create the config file and CLSD folder
 func CreateConfigFile() error {
 	// Get user's home directory based on OS
 	var homeDir string
@@ -119,7 +118,7 @@ func CreateConfigFile() error {
 	clsdFolderPath := filepath.Join(homeDir, ".config", clsdFolderName)
 
 	if _, err := os.Stat(clsdFolderPath); os.IsNotExist(err) {
-		err := os.Mkdir(clsdFolderPath, 0700) // Set read-write-execute for the owner only
+		err := os.Mkdir(clsdFolderPath, 0700)
 		if err != nil {
 			fmt.Printf("Error creating CLSD folder: %v", err)
 		}
@@ -132,7 +131,7 @@ func CreateConfigFile() error {
 			AWSSecretAccessKey: defaultAWSSecretKey,
 		}
 
-		viper.SetDefault("KEKkey", config.KEKkey) // Set default value for KEKkey in viper
+		viper.SetDefault("KEKkey", config.KEKkey)
 		viper.SetDefault("Region", config.Region)
 		viper.SetDefault("AWSAccessKeyID", config.AWSAccessKeyID)
 		viper.SetDefault("AWSSecretAccessKey", config.AWSSecretAccessKey)

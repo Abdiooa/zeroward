@@ -9,7 +9,6 @@ import (
 	"hash/crc32"
 	"io"
 	"os"
-	"path/filepath"
 )
 
 func EncryptKey(dek []byte, kek []byte, filePath string) error {
@@ -17,15 +16,19 @@ func EncryptKey(dek []byte, kek []byte, filePath string) error {
 	if err != nil {
 		return err
 	}
-
-	outputDEKDir := filepath.Dir(filePath)
-	outputDEKFilePath := filepath.Join(outputDEKDir, "DEK.key.enc")
-
-	file, err := os.Create(outputDEKFilePath)
+	// outputDEKDir := filepath.Dir(filePath)
+	// outputDEKFilePath := filepath.Join(outputDEKDir, "DEK.key.enc")
+	outputFilePath := filePath + ".enc"
+	file, err := os.OpenFile(outputFilePath, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
+	// file, err := os.Create(outputDEKFilePath)
+	// if err != nil {
+	// 	return err
+	// }
+	// defer file.Close()
 
 	_, err = file.Write(encryptedData)
 	if err != nil {

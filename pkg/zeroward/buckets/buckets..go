@@ -31,7 +31,7 @@ func ListBuckets(awsRegion string, accessKeyId string, accessKeySecret string) (
 		if err != nil {
 			return fmt.Errorf("listing objects in bucket %s failed: %s", aws.ToString(bucket.Name), err)
 		}
-		// Add a row for each bucket
+
 		rows = append(rows, []string{
 			aws.ToString(bucket.Name),
 			fmt.Sprintf("%dobjcs", len(objResult.Contents)),

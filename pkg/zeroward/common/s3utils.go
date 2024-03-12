@@ -62,16 +62,15 @@ func SetupS3Client(awsRegion, accessKeyId, accessKeySecret string) (*s3.Client, 
 }
 
 func RenderTable(header []string, rows [][]string) {
-	// Create a table
+
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader(header)
 
 	for _, row := range rows {
-		// Add a row for each item
+
 		table.Append(row)
 	}
 
-	// Optionally, customize the table
 	table.SetBorder(true)
 	table.SetCenterSeparator("│")
 	table.SetColumnSeparator("│")
@@ -82,6 +81,5 @@ func RenderTable(header []string, rows [][]string) {
 		table.SetHeaderColor(tablewriter.Color(tablewriter.BgBlackColor), tablewriter.Color(tablewriter.FgGreenColor), tablewriter.Color(tablewriter.FgGreenColor))
 	}
 
-	// Render the table
 	table.Render()
 }

@@ -25,7 +25,6 @@ func StoreCredentials(accessKeyID, secretAccessKey, region string) {
 	var credentialsFilePath string
 	var awsConfigFilePath string
 
-	// Get user's home directory based on OS
 	switch runtime.GOOS {
 	case "windows":
 		homeDir := os.Getenv("USERPROFILE")
@@ -42,7 +41,6 @@ func StoreCredentials(accessKeyID, secretAccessKey, region string) {
 		os.Exit(1)
 	}
 
-	// Create the .aws directory if it doesn't exist
 	if _, err := os.Stat(awsDir); os.IsNotExist(err) {
 		err := os.Mkdir(awsDir, 0700)
 		if err != nil {
@@ -51,7 +49,6 @@ func StoreCredentials(accessKeyID, secretAccessKey, region string) {
 		}
 	}
 
-	// Write credentials to credentials file
 	credentialsFilePath = filepath.Join(awsDir, "credentials")
 	credentialsFile, err := os.Create(credentialsFilePath)
 	if err != nil {
@@ -63,7 +60,6 @@ func StoreCredentials(accessKeyID, secretAccessKey, region string) {
 	credentialsFile.WriteString(fmt.Sprintf("aws_access_key_id = %s\n", accessKeyID))
 	credentialsFile.WriteString(fmt.Sprintf("aws_secret_access_key = %s\n", secretAccessKey))
 
-	// Write region to config file
 	awsConfigFilePath = filepath.Join(awsDir, "config")
 	awsconfigFile, err := os.Create(awsConfigFilePath)
 	if err != nil {

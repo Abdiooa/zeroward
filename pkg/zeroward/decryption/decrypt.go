@@ -6,18 +6,43 @@ import (
 	"encoding/binary"
 	"fmt"
 	"hash/crc32"
+	"io"
 	"os"
 )
 
-func DecryptKey(encryptedKeyFile string, kekKey []byte) ([]byte, error) {
-	// Read the encrypted DEK key from the file
-	encryptedKey, err := os.ReadFile(encryptedKeyFile)
+func DecryptKey(filePath string, kekKey []byte) ([]byte, error) {
+
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
 	if err != nil {
 		return nil, err
 	}
+	defer file.Close()
 
-	// Use the KEK key to decrypt the DEK key
+	fileInfo, err := file.Stat()
+	if err != nil {
+		return nil, err
+	}
+	fileSize := fileInfo.Size()
+
+	offset := fileSize - 60
+	_, err = file.Seek(offset, io.SeekStart)
+	if err != nil {
+		return nil, err
+	}
+	encryptedKey := make([]byte, 60)
+	_, err = file.Read(encryptedKey)
+	if err != nil {
+		return nil, err
+	}
+	// encryptedKey, err := os.ReadFile(encryptedKeyFile)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	decryptedKey, err := DecryptData(encryptedKey, kekKey)
+	if err != nil {
+		return nil, err
+	}
+	err = file.Truncate(offset)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +56,7 @@ func DecryptFile(ciphertext []byte, dekKey []byte) ([]byte, error) {
 	// 	return fmt.Errorf("error reading ciphertext file: %v", err)
 	// }
 
-	blockSize := 1024 + 4 + 16 + 12 // Include space for checksum
+	blockSize := 1024 + 4 + 16 + 12
 	var decryptedData []byte
 
 	for i := 0; i < len(ciphertext); i += blockSize {
@@ -40,7 +65,7 @@ func DecryptFile(ciphertext []byte, dekKey []byte) ([]byte, error) {
 			end = len(ciphertext)
 		}
 		block := ciphertext[i:end]
-		// Decrypt each block
+
 		decryptedBlock, err := DecryptData(block, dekKey)
 		if err != nil {
 			return nil, err
@@ -93,7 +118,7 @@ func DecryptData(ciphertext, key []byte) ([]byte, error) {
 func VerifyChecksum(data []byte) ([]byte, error) {
 	blockSize := 1024
 	var originalData []byte
-	for i := 0; i < len(data); i += blockSize + 4 { // the 4 bytes for checksum bytes
+	for i := 0; i < len(data); i += blockSize + 4 {
 		end := i + blockSize + 4
 		if end > len(data) {
 			end = len(data)
@@ -101,7 +126,7 @@ func VerifyChecksum(data []byte) ([]byte, error) {
 		blockWithChecksum := data[i:end]
 		checksumBytes := blockWithChecksum[:4]
 		block := blockWithChecksum[4:]
-		// verify checksum
+
 		checksum := crc32.ChecksumIEEE(block)
 		if binary.BigEndian.Uint32(checksumBytes) != checksum {
 			return nil, fmt.Errorf("checksum verification failed")

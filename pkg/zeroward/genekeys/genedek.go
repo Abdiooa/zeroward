@@ -6,10 +6,9 @@ import (
 )
 
 const (
-	dekSize = 32 // DEK key size in bytes
+	dekSize = 32
 )
 
-// GenerateDEK generates a cryptographically secure random DEK
 func GenerateDek() ([]byte, error) {
 	dek := make([]byte, dekSize)
 	_, err := rand.Read(dek)

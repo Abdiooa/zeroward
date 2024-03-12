@@ -22,7 +22,6 @@ func UploadFile(awsRegion, accessKeyId, accessKeySecret, bucketName, filePath st
 		return fmt.Errorf("failed to set up S3 client: %v", err)
 	}
 
-	// Check if the file exists
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		return fmt.Errorf("file not found: %s", filePath)
 	}
@@ -38,9 +37,8 @@ func UploadFile(awsRegion, accessKeyId, accessKeySecret, bucketName, filePath st
 	}()
 
 	fileName := filepath.Base(filePath)
-	objectKey = filepath.Join(objectKey, fileName) // Using specified path as object key
+	objectKey = filepath.Join(objectKey, fileName)
 
-	// Check if the bucket exists
 	_, err = client.HeadBucket(context.TODO(), &s3.HeadBucketInput{
 		Bucket: &bucketName,
 	})
@@ -52,7 +50,6 @@ func UploadFile(awsRegion, accessKeyId, accessKeySecret, bucketName, filePath st
 			case *types.NotFound:
 				return fmt.Errorf("bucket not found: %s", bucketName)
 			default:
-				// Handle other errors
 				return fmt.Errorf("error checking if the bucket exists: %v", err)
 			}
 		}

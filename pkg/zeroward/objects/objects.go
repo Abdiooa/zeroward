@@ -30,7 +30,7 @@ func ListObjects(awsRegion string, accessKeyId string, accessKeySecret string, b
 
 	for _, object := range result.Contents {
 		size := formatSize(*object.Size)
-		// Add a row for each object
+
 		rows = append(rows, []string{
 			aws.ToString(object.Key),
 			size,
