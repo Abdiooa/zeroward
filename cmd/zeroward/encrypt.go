@@ -49,16 +49,11 @@ var encryptCmd = &cobra.Command{
 
 		cobra.CheckErr(err)
 		if filePath != "" {
-			if err := encryption.EncryptFile(filePath, dek); err != nil {
+			if err := encryption.EncryptFile(filePath, dek, kekBytes); err != nil {
 				fmt.Println("Error encrypting File:", err)
 				return
 			}
 		}
-		if err := encryption.EncryptKey(dek, kekBytes, filePath); err != nil {
-			fmt.Println("Error encrypting DEK:", err)
-			return
-		}
-
 	},
 }
 

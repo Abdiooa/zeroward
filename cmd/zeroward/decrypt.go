@@ -17,8 +17,6 @@ var decryptCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		filePath, _ := cmd.Flags().GetString("filePath")
 
-		// dekkeyPath, _ := cmd.Flags().GetString("dekkey")
-
 		kekk := viper.GetString("KEKkey")
 
 		kekBytes, err := hex.DecodeString(kekk)
@@ -56,15 +54,10 @@ var decryptCmd = &cobra.Command{
 			}
 
 		}
-		// if err := os.Remove(dekkeyPath); err != nil {
-		// 	fmt.Println("Error:", err)
-		// 	return
-		// }
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(decryptCmd)
 
-	// decryptCmd.Flags().StringP("dekkey", "k", "", "DEK Key to decrypt the file please!")
 }
