@@ -62,9 +62,8 @@ func handleEncryptionAndUpload(accessKeyID, secretAccessKey, bcktName, filePath,
 	if err != nil {
 		return fmt.Errorf("error generating DEK: %v", err)
 	}
-
 	if filePath != "" {
-		if err := encryption.EncryptFile(filePath, dek); err != nil {
+		if err := encryption.EncryptFile(filePath, dek, kekk); err != nil {
 			return fmt.Errorf("error encrypting file: %v", err)
 		}
 	}
